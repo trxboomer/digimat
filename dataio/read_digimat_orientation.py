@@ -43,6 +43,17 @@ class DigimatPhaseOrientationFile:
     }
 
     def __init__(self, filename: str, path: str, phase_name: str, debug: bool = False):
+        """_summary_
+
+        Args:
+            filename (str): _description_
+            path (str): _description_
+            phase_name (str): _description_
+            debug (bool, optional): _description_. Defaults to False.
+
+        Raises:
+            OrientationFileError: _description_
+        """
         self.debug = debug
         self.filename = filename
         self.path = path

@@ -1,8 +1,7 @@
-from cmath import phase
 from typing import Literal, TypedDict
 from io import TextIOWrapper
 from loguru import logger
-import re
+from data_parsing import line_to_list
 
 
 class keyword_info(TypedDict):
@@ -74,15 +73,6 @@ def organize_key(
     return None
 
 
-whitespace_re = re.compile(r"\s+", flags=re.UNICODE)
-
-
-def line_to_list(line: str) -> list[str]:
-    # Remove all whitespace (Unicode) and split by comma
-    line = whitespace_re.sub("", line)
-    return line.split(",")
-
-
 class AbaqusInputFileError(Exception):
     """Custom exception for errors related to Abaqus input files."""
 
@@ -116,7 +106,7 @@ class AbaqusInputFile:
                 f"Abaqus input file {self.filename} not found at {self.path}."
             )
 
-    def cache_keywords(self, keyword_args: tuple[Literal[keywords]]) -> cache_type:
+    def cache_keywords(self, keyword_args: tuple[Literal[keywords]]) -> None:
         """Create a cache based on the selected keywords
 
         Args:
@@ -202,6 +192,11 @@ class AbaqusInputFile:
             if return_list is True:
                 return self.phase_name_list
 
+        if phase_name is None and phase_name_list is None:
+            raise AbaqusInputFileError(
+                "Either phase_name or phase_name_list must be provided."
+            )
+
         if phase_name is None and phase_name_list is not None:
             if "Elset" not in self.cache:
                 self.cache_keywords(("Elset",))
@@ -217,8 +212,3 @@ class AbaqusInputFile:
                     )
 
             main(phase_name)
-
-        if phase_name is None and phase_name_list is None:
-            raise AbaqusInputFileError(
-                "Either phase_name or phase_name_list must be provided."
-            )
