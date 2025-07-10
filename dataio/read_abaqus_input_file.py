@@ -1,7 +1,7 @@
 from typing import Literal, TypedDict
 from io import TextIOWrapper
 from loguru import logger
-from data_parsing import line_to_list
+from .data_parsing import line_to_list
 
 
 class keyword_info(TypedDict):
@@ -110,7 +110,7 @@ class AbaqusInputFile:
         """Create a cache based on the selected keywords
 
         Args:
-            file (TextIOWrapper): file objet to read the Abaqus input file
+            keyword_args:"Surface","Elset", "Nset", "NODE", "Element", "Orientation", "SolidSection"
 
         Returns:
             nodes_type: _description_

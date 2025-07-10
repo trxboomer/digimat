@@ -7,18 +7,16 @@ class TemplateEditFunction:
     def __init__(self) -> None:
         pass
 
-    @property
     @abstractmethod
     def description(self) -> str:
         pass
 
-    @property
     @abstractmethod
     def common_name(self) -> str:
         pass
 
     @abstractmethod
-    def check_line(self, line: str) -> bool:
+    def check_line(self, lines: list[str]) -> bool:
         """Function that determines if the current function is applicable to the given line
 
         Args:
@@ -30,7 +28,7 @@ class TemplateEditFunction:
         pass
 
     @abstractmethod
-    def process_line(self, line: str) -> tuple[list[str], int]:
+    def process_line(self, lines: list[str]) -> tuple[list[str], int]:
         """Edit the line (and subsequent lines if nessassary)
 
         Args:
@@ -41,7 +39,3 @@ class TemplateEditFunction:
             int: number of lines to skip after the current line
         """
         pass
-
-    def run(self, line: str):
-        if self.check_line(line):
-            self.process_line(line)

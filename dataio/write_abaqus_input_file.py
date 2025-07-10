@@ -1,9 +1,9 @@
 from io import TextIOWrapper
 from typing import List
-from collections.abc import Callable
 from loguru import logger
-from read_abaqus_input_file import AbaqusInputFileError
+from .read_abaqus_input_file import AbaqusInputFileError
 from datetime import datetime
+from .TemplateAbaqusEditFunction import TemplateEditFunction
 import os
 
 
@@ -11,7 +11,7 @@ class modify_file:
     def __init__(
         self,
         output_path: str,
-        edit_functions: List[Callable[[str], list[str]]],
+        edit_functions: List[TemplateEditFunction],
         output_filename: str | None = None,
         open_input_file: TextIOWrapper | None = None,
         input_path: str | None = None,
@@ -49,6 +49,7 @@ class modify_file:
             raise ValueError(
                 f"Invalid arguments: output_filename = {output_filename}, "
                 f"input_filename = {input_filename}"
+                f"Include either the input filename, or the output filename"
             )
 
         if open_input_file:
@@ -101,15 +102,30 @@ class modify_file:
         except FileExistsError:
             raise FileExistsError("File with the same name exists")
 
-    def edit_line(self, line: str) -> list[str]:
-        lines = [line]
+    def edit_line(self, line: list[str]) -> tuple[list[str], int]:
+        lines = line
+        total_lines: list[int] = []
         for func in self.edit_functions:
-            lines = func(line)
-        return lines
+            if func.check_line(line):
+                lines, skip_lines = func.process_line(line)
+                total_lines.append(skip_lines)
+
+        skip_lines = 0 if total_lines == [] else max(total_lines)
+        return lines, skip_lines
 
     def copy_and_edit(self):
+        self.input_file.seek(0)
         for line in self.input_file:
-            new_lines = self.edit_line(line)
+            if "*" in line:
+                new_lines, skip_lines = self.edit_line([line])
+                for new_line in new_lines:
+                    self.output_file.write(new_line)
 
-            for new_line in new_lines:
-                self.output_file.write(new_line)
+                for i in range(skip_lines):
+                    next(self.input_file)
+
+            else:
+                self.output_file.write(line)
+
+        self.input_file.close()
+        self.output_file.close()

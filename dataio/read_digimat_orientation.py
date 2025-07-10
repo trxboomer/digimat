@@ -2,6 +2,7 @@ from typing import Literal, Union, Tuple
 import numpy as np
 from numpy import typing as npt
 from loguru import logger
+from .data_parsing import line_to_list
 
 
 class OrientationFileError(Exception):
@@ -27,8 +28,8 @@ OrientationColumnName = Literal[
 
 class DigimatPhaseOrientationFile:
     cols: dict[str, int] = {
-        "inclusion nb": 0,
-        "Z rotation": 1,
+        "inclusionnb": 0,
+        "Zrotation": 1,
         "theta": 2,
         "phi": 3,
         "rotMat11": 4,
@@ -67,20 +68,22 @@ class DigimatPhaseOrientationFile:
     def check_file(self) -> bool:
         logger.info(f"Checking orientation file: {self.filename} at path: {self.path}")
         try:
-            with open(f"{self.path}{self.filename}", "r") as file:
-                header = file.readline().strip().split(";")
-                if not all(col in header for col in self.cols.keys()):
-                    logger.error(
-                        f"Orientation file {self.filename} does not contain all required columns."
-                    )
-                    return False
+            file = open(f"{self.path}/{self.filename}", "r")
+
+        except FileNotFoundError:
+            logger.error(f"Orientation file {self.filename} not found at {self.path}.")
+            return False
+        finally:
+            header = line_to_list(file.readline(), delimiter=";")
+            if any(col not in header for col in list(self.cols.keys())):
+                logger.error(
+                    f"Orientation file {self.filename} does not contain all required columns.\n Columns found: {header}\nColumns expected: {self.cols.keys()}"
+                )
+                return False
             logger.success(
                 f"Orientation file {self.filename} in {self.path} found and validated."
             )
             return True
-        except FileNotFoundError:
-            logger.error(f"Orientation file {self.filename} not found at {self.path}.")
-            return False
 
     def get_columns(
         self, columns: Union[Tuple[OrientationColumnName, ...], Tuple[Literal["all"],]]
@@ -96,8 +99,8 @@ class DigimatPhaseOrientationFile:
 
         logger.info(f"Reading orientation file: {self.filename} from path: {self.path}")
 
-        data = np.genfromtxt(
-            f"{self.path}{self.filename}",
+        self.data = np.genfromtxt(
+            f"{self.path}/{self.filename}",
             delimiter=";",
             skip_header=1,
             dtype=float,
@@ -108,11 +111,11 @@ class DigimatPhaseOrientationFile:
         logger.success(
             f"Orientation data loaded from {self.filename} for phase {self.phase_name}"
         )
-        if data.size == 0:
+        if self.data.size == 0:
             logger.error(
                 f"No data found in {self.filename} for phase {self.phase_name}."
             )
             raise OrientationFileError(
                 f"No data found in {self.filename} for phase {self.phase_name}."
             )
-        return data
+        return self.data

@@ -1,0 +1,234 @@
+
+##########################################
+MATERIAL
+name = Air
+type = linear_fourier
+density = 1.000000000000000e-04
+consistent_tangent = on
+thermal_model = isotropic
+thermal_conductivity = 1.000000000000000e-04
+specific_heat_capacity = 1.000000000000000e-04
+
+##########################################
+MATERIAL
+name = Carbon_Fiber
+type = linear_fourier
+density = 1.000000000000000e-04
+consistent_tangent = on
+thermal_model = isotropic
+thermal_conductivity = 1.000000000000000e-03
+specific_heat_capacity = 1.000000000000000e-04
+
+##########################################
+MATERIAL
+name = Polymer
+type = linear_fourier
+density = 1.000000000000000e-04
+consistent_tangent = on
+thermal_model = isotropic
+thermal_conductivity = 1.000000000000000e-04
+specific_heat_capacity = 1.000000000000000e-04
+
+##########################################
+PHASE
+name = Matrix
+type = matrix
+volume_fraction = 6.000000000000001e-01
+material = Polymer
+
+##########################################
+PHASE
+name = Fiber
+type = inclusion_fe
+volume_fraction = 1.000000000000000e-01
+material = Carbon_Fiber
+inclusion_shape = spherocylinder
+aspect_ratio = 1.000000000000000e+01
+phase_definition = by_size_and_diameter
+inclusion_diameter = 5.000000000000000e-03
+inclusion_size = 5.000000000000000e-02
+size_distribution = fixed
+orientation = tensor
+orientation_11 = 7.900000000000000e-01
+orientation_22 = 1.100000000000000e-01
+orientation_33 = 1.000000000000000e-01
+orientation_12 = -1.000000000000000e-02
+orientation_13 = 1.000000000000000e-02
+orientation_23 = 0.000000000000000e+00
+coated = no
+interface_behavior = perfectly_bonded
+clustering = no
+allow_size_reduction = no
+track_percolation_onset = no
+stop_at_percolation = no
+check_final_percolation = no
+no_tie_on_fiber_tips = no
+
+##########################################
+PHASE
+name = Voids
+type = void_fe
+volume_fraction = 3.000000000000000e-01
+inclusion_shape = ellipsoid
+aspect_ratio = 1.000000000000000e+00
+phase_definition = by_size_and_ar
+inclusion_size = 6.000000000000000e-02
+size_distribution = fixed
+orientation = tensor
+orientation_11 = 8.000000000000000e-01
+orientation_22 = 2.000000000000000e-01
+orientation_33 = 0.000000000000000e+00
+orientation_12 = 0.000000000000000e+00
+orientation_13 = 0.000000000000000e+00
+orientation_23 = 0.000000000000000e+00
+coated = no
+interface_behavior = perfectly_bonded
+clustering = no
+allow_size_reduction = no
+track_percolation_onset = no
+stop_at_percolation = no
+check_final_percolation = no
+no_tie_on_fiber_tips = no
+
+##########################################
+MICROSTRUCTURE
+name = Microstructure1
+phase = Matrix
+phase = Fiber
+phase = Voids
+
+##########################################
+LOADING
+name = Temperature_gradient
+type = temperature_gradient
+boundary_conditions = periodic
+load = uniaxial_1
+initial_gradient = 0.000000000000000e+00
+peak_gradient = 1.000000000000000e+00
+history = monotonic
+theta_load = 9.000000000000000e+01
+phi_load = 0.000000000000000e+00
+required_components = NONE
+
+##########################################
+RVE
+type = classical
+microstructure = Microstructure1
+
+##########################################
+MESH
+mesh_type = conforming
+automatic_mesh_sizing = off
+element_size = 2.500000000000000e-03
+minimum_element_size = 5.000000000000000e-04
+use_quadratic_elements = off
+use_quadratic_geometric_elements = off
+element_shape = quad_dominated
+internal_coarsening = on
+curvature_control = on
+chordal_deviation_ratio = 1.000000000000000e-01
+nb_refinement_steps = 5
+model_layer_interfaces = off
+seed_size = 5.000000000000001e-03
+share_nodes = off
+periodic_mesh = off
+cohesive_element_size_ratio = 2.000000000000000e-01
+
+##########################################
+ANALYSISFE
+name = test_1_3
+type = thermal_conductivity
+loading_name = Temperature_gradient
+final_time = 1.000000000000000e+00
+max_time_inc = 1.000000000000000e+00
+min_time_inc = 1.000000000000000e-01
+finite_strain = off
+initial_time_inc = 1.000000000000000e+00
+max_number_increment = 2
+rve_size_definition = user_defined
+rve_dimension = 3d
+size_rve = 1.000000000000000e-01
+periodic = yes
+generation_sequence = phase_per_phase
+generate_matrix = no
+track_global_percolation_onset = no
+stop_at_global_percolation = no
+check_final_global_percolation = no
+random_seed_type = custom
+random_seed = 120438646
+fe_solver = Abaqus/INP
+unsymmetric_solver = no
+default_timestepping = yes
+nb_cpus = 1
+fe_solver_type = iterative
+fe_field_output_frequency = 1
+use_output_time_points = yes
+
+##########################################
+GENERATION_SEQUENCE
+Fiber
+Voids
+
+
+##########################################
+GLOBAL_SETTINGS
+allow_interpenetration = no
+allow_coating_interpenetration = yes
+allow_rim_interpenetration = yes
+use_median_plane_interpenetration = no
+use_optimized_cut_plane = no
+interpenetration_strategy_auto_fallback = no
+cubic_architecture = no
+apply_perturbation = no
+favor_orientation_over_fraction = no
+minimum_relative_distance_wrt_diameter = 5.000000000000000e-02
+minimum_relative_vol = 5.000000000000000e-02
+max_number_of_tests = 2000
+OT_norm_tol = 1.000000000000000e-01
+max_number_of_geometry_attempts = 10
+minimum_rel_dist_incl_to_face = 0.000000000000000e+00
+maximum_interpenetration_amount = 5.000000000000000e-01
+random_fiber_perturbation_no_transverse_perturbation = no
+default_geometric_options = no
+remove_unconnected_matrix_regions = no
+
+##########################################
+SETTINGS
+phase_a = Fiber
+phase_b = Voids
+allow_interpenetration = yes
+allow_coating_interpenetration = yes
+allow_rim_interpenetration = yes
+use_median_plane_interpenetration = no
+use_optimized_cut_plane = no
+interpenetration_strategy_auto_fallback = no
+cubic_architecture = no
+apply_perturbation = no
+minimum_relative_distance_wrt_diameter = 5.000000000000000e-02
+minimum_relative_vol = 5.000000000000000e-02
+max_number_of_tests = 2000
+OT_norm_tol = 1.000000000000000e-01
+max_number_of_geometry_attempts = 10
+minimum_rel_dist_incl_to_face = 0.000000000000000e+00
+maximum_interpenetration_amount = 1.000000000000000e+00
+
+##########################################
+SETTINGS
+phase_a = Voids
+phase_b = Voids
+allow_interpenetration = yes
+allow_coating_interpenetration = yes
+allow_rim_interpenetration = yes
+use_median_plane_interpenetration = yes
+use_optimized_cut_plane = yes
+interpenetration_strategy_auto_fallback = no
+cubic_architecture = no
+apply_perturbation = no
+favor_orientation_over_fraction = no
+minimum_relative_distance_wrt_diameter = 5.000000000000000e-02
+minimum_relative_vol = 5.000000000000000e-02
+max_number_of_tests = 2000
+OT_norm_tol = 1.000000000000000e-01
+max_number_of_geometry_attempts = 10
+minimum_rel_dist_incl_to_face = 0.000000000000000e+00
+maximum_interpenetration_amount = 5.000000000000000e-01

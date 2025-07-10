@@ -1,9 +1,10 @@
-from typing import LiteralString
-from TemplateAbaqusEditFunction import TemplateEditFunction as Template
-from data_parsing import line_to_list
+from tabnanny import check
+from typing import Literal, LiteralString
+from .TemplateAbaqusEditFunction import TemplateEditFunction as Template
+from .data_parsing import line_to_list
 import numpy as np
 import numpy.typing as npt
-from ..math_util import vector_transformation as vt
+from math_util import vector_transformation as vt
 
 
 class add_orientation(Template):
@@ -15,26 +16,25 @@ class add_orientation(Template):
         self.orientation_ID = 0
         self.lines_to_skip = 1
 
-    @property
     def descriptor(self) -> LiteralString:
         return "Adds the orientation of the elset to the input file"
 
-    @property
     def common_name(self) -> LiteralString:
         return "Add Orientation to Fiber"
 
-    def check_line(self, line: str) -> bool:
-        if "Solid Section" not in line or self.phase_name not in line:
-            return False
-        else:
-            return True
+    def check_line(self, lines: list[str]) -> bool:
+        for line in lines:
+            if "Solid Section" in line and f"{self.phase_name}_" in line:
+                return True
+
+        return False
 
     def next_orientation_ID(self):
         orientation_ID = f"Ori-{self.phase_name}-{self.orientation_ID}"
         self.orientation_ID += 1
         return orientation_ID
 
-    def process_line(self, line: str) -> tuple[list[str], int]:
+    def process_line(self, lines: list[str]) -> tuple[list[str], int]:  # type: ignore
         """Add new lines defining orientation, and edit Solid Section initialization to add orientation parameter
 
         Args:
@@ -43,21 +43,97 @@ class add_orientation(Template):
         Returns:
             tuple[list[str], int]: _description_
         """
-        param_list = line_to_list(line)
+        for line in lines:
+            if "Solid Section" not in line or f"{self.phase_name}_" not in line:
+                continue
+            param_list = line_to_list(line)
 
-        # logger.debug(f"Parameters list: {param_list}")
-        fiber_name = param_list[1].split("=")[1]
-        fiber_num = fiber_name.split("_")[1]
-        row = self.orientation_list[int(fiber_num)]
+            # logger.debug(f"Parameters list: {param_list}")
+            fiber_name = param_list[1].split("=")[1]
+            fiber_num = fiber_name.split("_")[1]
+            row = self.orientation_list[int(fiber_num)]
 
-        a_points = vt.spherical_to_cartesian(theta=row[1], phi=row[2])
-        b_points = vt.perpendicular_vector(a_points)
-        orientation_name = self.next_orientation_ID()
-        orientation = np.append(a_points, b_points)
+            a_points = vt.spherical_to_cartesian(theta=row[1], phi=row[2])
+            b_points = vt.perpendicular_vector(a_points)
+            orientation_name = self.next_orientation_ID()
+            orientation = np.append(a_points, b_points)
 
-        new_lines: list[str] = [f"*Orientation, name={orientation_name}\n"]
-        new_lines.append(", ".join(f"{x:6e}" for x in orientation) + "\n")
-        new_lines.append("3, 0.\n")
-        new_lines.append(f"{line}, orientation={orientation_name}\n")
+            new_lines: list[str] = [f"*Orientation, name={orientation_name}\n"]
+            new_lines.append(", ".join(f"{x:6e}" for x in orientation) + "\n")
+            new_lines.append("3, 0.\n")
+            new_lines.append(f"{line}, orientation={orientation_name}\n")
 
-        return new_lines, self.lines_to_skip
+            return new_lines, self.lines_to_skip
+
+
+class change_material_property(Template):
+    isotropy = Literal["Isotropic", "Anisotropic", "Orthotropic"]
+    property_names = Literal["Conductivity", "Specific heat"]
+
+    skip_lines = 1
+
+    def __init__(
+        self,
+        material_name: str,
+        property_name: property_names,
+        new_isotropy: isotropy,
+        new_values: tuple[float, ...],
+    ) -> None:
+        self.reached_material_properties = False
+        self.material_name = material_name
+        self.property_name = property_name
+        self.new_isotropy = new_isotropy
+        self.new_values = new_values
+        self.check_inputs()
+        self.isotropy_type = self.get_isotropy_type()
+        pass
+
+    def check_inputs(self):
+        if self.new_isotropy == "Isotropic" and len(self.new_values) != 1:
+            raise ValueError(
+                f"Isotropic properties should only have one value, not {len(self.new_values)}"
+            )
+        elif (
+            self.new_isotropy == "Anisotropic"
+            or self.new_isotropy == "Orthotropic"
+            and len(self.new_values) != 3
+        ):
+            raise ValueError(
+                f"{self.new_isotropy} properties should have 3 values, not {len(self.new_values)}"
+            )
+
+    def get_isotropy_type(self):
+        if self.new_isotropy == "Orthotropic":
+            return ", type=ORTHO"
+        if self.new_isotropy == "Isotropic":
+            return ""
+
+    def description(self):
+        return "Changes the property of interest for a given material."
+
+    def common_name(self) -> str:
+        return "Change Material Properties"
+
+    def check_line(self, lines: list[str]) -> bool:
+        for line in lines:
+            if self.reached_material_properties and self.property_name in line:
+                return True
+
+            else:
+                if "Material" in line and self.material_name in line:
+                    self.reached_material_properties = True
+
+        return False
+
+    def process_line(self, lines: list[str]) -> tuple[list[str], int]:
+        new_lines: list[str] = []
+        for line in lines:
+            if self.property_name in line:
+                new_lines.append(f"*{self.property_name}{self.isotropy_type}\n")
+                value_line = ",".join(f"{x:6e}" for x in self.new_values) + "\n"
+                new_lines.append(value_line)
+
+            else:
+                new_lines.append(line)
+
+        return new_lines, self.skip_lines

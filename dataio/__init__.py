@@ -1,2 +1,0 @@
-from dataio.TemplateAbaqusEditFunction import TemplateEditFunction
-from ..math_util import vector_transformation

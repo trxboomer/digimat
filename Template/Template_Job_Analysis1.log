@@ -1,0 +1,663 @@
+
+# DIGIMAT FE INFO : DIGIMAT FE Log file - 10/07/2025  15:31:54
+#***************************************************************************#
+#                                Digimat-FE                                 #
+#                              Version 2024.1                               #
+#                            (Tag : d51f304174)                             #
+#                        (Build date : 2024-Apr-07)                         #
+#                              (MSC licensing)                              #
+#                        By: MSC Software Belgium SA                        #
+#               Axis Park-Building H, 9, Rue Emile Francqui,                #
+#                    B-1435 Mont-Saint-Guibert, Belgium                     #
+# Copyright © 2024 Hexagon AB and/or its subsidiaries. All Rights Reserved. #
+# WARNING: This computer program is protected by copyright law and          #
+# international treaties. Unauthorized reproduction or distribution of this #
+# program, or any portion of it, may result in legal actions.               #
+#***************************************************************************#
+
+
+# DIGIMAT FE INFO : DIGIMAT_BIN_20241 = C:\MSC.Software\Digimat\2024.1\Digimat\
+# exec
+# DIGIMAT FE INFO : DIGIMAT_Settings.ini file used for analysis is
+# C:\MSC.Software\Digimat\2024.1\Digimat\exec\DIGIMAT_Settings.ini
+
+name = Analysis1
+size_rve = 0.1
+periodic = yes
+generate_matrix = no
+random_seed = 1
+
+#
+GLOBAL_SETTINGS
+#
+
+allow_interpenetration = no
+allow_coating_interpenetration = yes
+allow_rim_interpenetration = yes
+use_median_plane_interpenetration = no
+use_optimized_cut_plane = no
+interpenetration_strategy_auto_fallback = no
+cubic_architechture = no
+apply_perturbation = no
+favor_orientation_over_fraction = no
+minimum_relative_distance_wrt_diameter = 0.05
+minimum_relative_vol = 0.05
+max_number_of_tests = 2000
+OT_norm_tol = 0.1
+max_number_of_geometry_attempts = 10
+minimum_rel_dist_incl_to_face = 0
+maximum_interpenetration_amount = 0.5
+random_fiber_perturbation_no_transverse_perturbation = no
+remove_unconnected_matrix_regions = no
+
+#
+PHASE
+#
+
+name = Matrix
+type = matrix
+
+#
+PHASE
+#
+
+name = Fiber
+name = Fiber
+type = inclusion_fe
+volume_fraction = 0.1
+inclusion_shape = spherocylinder
+aspect_ratio = 10
+phase_definition = by_size_and_diameter
+inclusion_diameter = 0.005
+inclusion_size = 0.05
+size_distribution = fixed
+orientation = tensor
+orientation_11 = 0.79
+orientation_22 = 0.11
+orientation_33 = 0.1
+orientation_12 = -0.01
+orientation_13 = 0.01
+orientation_23 = 0
+coated = no
+clustering = no
+allow_size_reduction = no
+track_percolation_onset = no
+stop_at_percolation = no
+check_final_percolation = no
+
+#
+PHASE
+#
+
+name = Voids
+name = Voids
+type = void_fe
+volume_fraction = 0.3
+inclusion_shape = ellipsoid
+aspect_ratio = 1
+phase_definition = by_size_and_ar
+inclusion_size = 0.06
+size_distribution = fixed
+orientation = tensor
+orientation_11 = 0.8
+orientation_22 = 0.2
+orientation_33 = 0
+orientation_12 = 0
+orientation_13 = 0
+orientation_23 = 0
+coated = no
+clustering = no
+allow_size_reduction = no
+track_percolation_onset = no
+stop_at_percolation = no
+check_final_percolation = no
+
+#
+MICROSTRUCTURE
+#
+
+name = Microstructure1
+phase = Matrix
+phase = Fiber
+phase = Voids
+
+#
+RVE
+#
+
+type = classical
+
+#
+MESH
+#
+
+use_quadratic_elements = off
+
+#
+ANALYSISFE
+#
+
+name = Analysis1
+size_rve = 0.1
+periodic = yes
+generate_matrix = no
+random_seed = 1
+
+#
+GENERATION_SEQUENCE
+#
+Fiber
+Voids
+
+
+#
+SETTINGS
+#
+
+phase_a = Fiber
+phase_b = Voids
+allow_interpenetration = yes
+allow_coating_interpenetration = yes
+allow_rim_interpenetration = yes
+use_median_plane_interpenetration = no
+use_optimized_cut_plane = no
+interpenetration_strategy_auto_fallback = no
+cubic_architechture = no
+apply_perturbation = no
+minimum_relative_distance_wrt_diameter = 0.05
+minimum_relative_vol = 0.05
+max_number_of_tests = 2000
+OT_norm_tol = 0.1
+max_number_of_geometry_attempts = 10
+minimum_rel_dist_incl_to_face = 0
+maximum_interpenetration_amount = 1
+
+#
+SETTINGS
+#
+
+phase_a = Voids
+phase_b = Voids
+allow_interpenetration = yes
+allow_coating_interpenetration = yes
+allow_rim_interpenetration = yes
+use_median_plane_interpenetration = yes
+use_optimized_cut_plane = yes
+interpenetration_strategy_auto_fallback = no
+cubic_architechture = no
+apply_perturbation = no
+favor_orientation_over_fraction = no
+minimum_relative_distance_wrt_diameter = 0.05
+minimum_relative_vol = 0.05
+max_number_of_tests = 2000
+OT_norm_tol = 0.1
+max_number_of_geometry_attempts = 10
+minimum_rel_dist_incl_to_face = 0
+maximum_interpenetration_amount = 0.5
+# DIGIMAT FE WARNING : Minimum relative distance parameter will be ignored
+# (because interpenetration of inclusions has been allowed).
+# DIGIMAT FE WARNING : Minimum relative distance parameter will be ignored
+# (because interpenetration of inclusions has been allowed).
+# DIGIMAT FE WARNING : Minimum relative distance parameter will be ignored
+# (because interpenetration of inclusions has been allowed).
+
+
+
+
+# DIGIMAT FE INFO : Checking out license ... 
+
+# DIGIMAT FE INFO : Using C:\MSC.Software\MSC Licensing\Beryllium\license.dat as
+# license file location.
+
+# DIGIMAT FE INFO : License check out successful
+Starting generation of phase Fiber...
+
+Inclusion nb 1 in phase Fiber
+Number of tests for this inclusion : 4
+Current phase volume fraction : 0.000949023
+
+Inclusion nb 2 in phase Fiber
+Number of tests for this inclusion : 1
+Current phase volume fraction : 0.00189787
+
+Inclusion nb 3 in phase Fiber
+Number of tests for this inclusion : 1
+Current phase volume fraction : 0.00284679
+
+Inclusion nb 4 in phase Fiber
+Number of tests for this inclusion : 2
+Current phase volume fraction : 0.00379593
+
+Inclusion nb 5 in phase Fiber
+Number of tests for this inclusion : 1
+Current phase volume fraction : 0.00474496
+
+Inclusion nb 6 in phase Fiber
+Number of tests for this inclusion : 1
+Current phase volume fraction : 0.00569388
+
+Inclusion nb 7 in phase Fiber
+Number of tests for this inclusion : 3
+Current phase volume fraction : 0.00664285
+
+Inclusion nb 8 in phase Fiber
+Number of tests for this inclusion : 2
+Current phase volume fraction : 0.00759178
+
+Inclusion nb 9 in phase Fiber
+Number of tests for this inclusion : 1
+Current phase volume fraction : 0.0085408
+
+Inclusion nb 10 in phase Fiber
+Number of tests for this inclusion : 3
+Current phase volume fraction : 0.00948976
+
+Inclusion nb 11 in phase Fiber
+Number of tests for this inclusion : 2
+Current phase volume fraction : 0.0104388
+
+Inclusion nb 12 in phase Fiber
+Number of tests for this inclusion : 1
+Current phase volume fraction : 0.0113878
+
+Inclusion nb 13 in phase Fiber
+Number of tests for this inclusion : 1
+Current phase volume fraction : 0.0123367
+
+Inclusion nb 14 in phase Fiber
+Number of tests for this inclusion : 3
+Current phase volume fraction : 0.013286
+
+Inclusion nb 15 in phase Fiber
+Number of tests for this inclusion : 1
+Current phase volume fraction : 0.014235
+
+Inclusion nb 16 in phase Fiber
+Number of tests for this inclusion : 1
+Current phase volume fraction : 0.0151836
+
+Inclusion nb 17 in phase Fiber
+Number of tests for this inclusion : 4
+Current phase volume fraction : 0.0161326
+
+Inclusion nb 18 in phase Fiber
+Number of tests for this inclusion : 2
+Current phase volume fraction : 0.0170815
+
+Inclusion nb 19 in phase Fiber
+Number of tests for this inclusion : 1
+Current phase volume fraction : 0.0180314
+
+Inclusion nb 20 in phase Fiber
+Number of tests for this inclusion : 2
+Current phase volume fraction : 0.0189803
+
+Inclusion nb 21 in phase Fiber
+Number of tests for this inclusion : 1
+Current phase volume fraction : 0.0199295
+
+Inclusion nb 22 in phase Fiber
+Number of tests for this inclusion : 3
+Current phase volume fraction : 0.0208785
+
+Inclusion nb 23 in phase Fiber
+Number of tests for this inclusion : 7
+Current phase volume fraction : 0.0218275
+
+Inclusion nb 24 in phase Fiber
+Number of tests for this inclusion : 4
+Current phase volume fraction : 0.0227765
+
+Inclusion nb 25 in phase Fiber
+Number of tests for this inclusion : 1
+Current phase volume fraction : 0.0237254
+
+Inclusion nb 26 in phase Fiber
+Number of tests for this inclusion : 3
+Current phase volume fraction : 0.0246745
+
+Inclusion nb 27 in phase Fiber
+Number of tests for this inclusion : 2
+Current phase volume fraction : 0.0256234
+
+Inclusion nb 28 in phase Fiber
+Number of tests for this inclusion : 6
+Current phase volume fraction : 0.0265721
+
+Inclusion nb 29 in phase Fiber
+Number of tests for this inclusion : 9
+Current phase volume fraction : 0.0275213
+
+Inclusion nb 30 in phase Fiber
+Number of tests for this inclusion : 5
+Current phase volume fraction : 0.0284703
+
+Inclusion nb 31 in phase Fiber
+Number of tests for this inclusion : 1
+Current phase volume fraction : 0.0294192
+
+Inclusion nb 32 in phase Fiber
+Number of tests for this inclusion : 2
+Current phase volume fraction : 0.0303681
+
+Inclusion nb 33 in phase Fiber
+Number of tests for this inclusion : 6
+Current phase volume fraction : 0.031317
+
+Inclusion nb 34 in phase Fiber
+Number of tests for this inclusion : 3
+Current phase volume fraction : 0.0322658
+
+Inclusion nb 35 in phase Fiber
+Number of tests for this inclusion : 4
+Current phase volume fraction : 0.0332147
+
+Inclusion nb 36 in phase Fiber
+Number of tests for this inclusion : 4
+Current phase volume fraction : 0.0341639
+
+Inclusion nb 37 in phase Fiber
+Number of tests for this inclusion : 14
+Current phase volume fraction : 0.0351128
+
+Inclusion nb 38 in phase Fiber
+Number of tests for this inclusion : 4
+Current phase volume fraction : 0.0360619
+
+Inclusion nb 39 in phase Fiber
+Number of tests for this inclusion : 6
+Current phase volume fraction : 0.0370109
+
+Inclusion nb 40 in phase Fiber
+Number of tests for this inclusion : 7
+Current phase volume fraction : 0.0379599
+
+Inclusion nb 41 in phase Fiber
+Number of tests for this inclusion : 4
+Current phase volume fraction : 0.0389089
+
+Inclusion nb 42 in phase Fiber
+Number of tests for this inclusion : 1
+Current phase volume fraction : 0.0398579
+
+Inclusion nb 43 in phase Fiber
+Number of tests for this inclusion : 3
+Current phase volume fraction : 0.040807
+
+Inclusion nb 44 in phase Fiber
+Number of tests for this inclusion : 1
+Current phase volume fraction : 0.041756
+
+Inclusion nb 45 in phase Fiber
+Number of tests for this inclusion : 5
+Current phase volume fraction : 0.0427049
+
+Inclusion nb 46 in phase Fiber
+Number of tests for this inclusion : 5
+Current phase volume fraction : 0.0436539
+
+Inclusion nb 47 in phase Fiber
+Number of tests for this inclusion : 10
+Current phase volume fraction : 0.044603
+
+Inclusion nb 48 in phase Fiber
+Number of tests for this inclusion : 1
+Current phase volume fraction : 0.045552
+
+Inclusion nb 49 in phase Fiber
+Number of tests for this inclusion : 4
+Current phase volume fraction : 0.0465009
+
+Inclusion nb 50 in phase Fiber
+Number of tests for this inclusion : 10
+Current phase volume fraction : 0.0474498
+
+Inclusion nb 51 in phase Fiber
+Number of tests for this inclusion : 1
+Current phase volume fraction : 0.0483988
+
+Inclusion nb 52 in phase Fiber
+Number of tests for this inclusion : 2
+Current phase volume fraction : 0.0493477
+
+Inclusion nb 53 in phase Fiber
+Number of tests for this inclusion : 1
+Current phase volume fraction : 0.0502967
+
+Inclusion nb 54 in phase Fiber
+Number of tests for this inclusion : 1
+Current phase volume fraction : 0.0512457
+
+Inclusion nb 55 in phase Fiber
+Number of tests for this inclusion : 7
+Current phase volume fraction : 0.0521946
+
+Inclusion nb 56 in phase Fiber
+Number of tests for this inclusion : 6
+Current phase volume fraction : 0.0531437
+
+Inclusion nb 57 in phase Fiber
+Number of tests for this inclusion : 4
+Current phase volume fraction : 0.0540925
+
+Inclusion nb 58 in phase Fiber
+Number of tests for this inclusion : 12
+Current phase volume fraction : 0.0550415
+
+Inclusion nb 59 in phase Fiber
+Number of tests for this inclusion : 9
+Current phase volume fraction : 0.0559905
+
+Inclusion nb 60 in phase Fiber
+Number of tests for this inclusion : 16
+Current phase volume fraction : 0.0569394
+
+Inclusion nb 61 in phase Fiber
+Number of tests for this inclusion : 18
+Current phase volume fraction : 0.0578887
+
+Inclusion nb 62 in phase Fiber
+Number of tests for this inclusion : 6
+Current phase volume fraction : 0.0588378
+
+Inclusion nb 63 in phase Fiber
+Number of tests for this inclusion : 3
+Current phase volume fraction : 0.0597868
+
+Inclusion nb 64 in phase Fiber
+Number of tests for this inclusion : 6
+Current phase volume fraction : 0.0607357
+
+Inclusion nb 65 in phase Fiber
+Number of tests for this inclusion : 34
+Current phase volume fraction : 0.0616847
+
+Inclusion nb 66 in phase Fiber
+Number of tests for this inclusion : 21
+Current phase volume fraction : 0.0626337
+
+Inclusion nb 67 in phase Fiber
+Number of tests for this inclusion : 16
+Current phase volume fraction : 0.0635827
+
+Inclusion nb 68 in phase Fiber
+Number of tests for this inclusion : 10
+Current phase volume fraction : 0.0645317
+
+Inclusion nb 69 in phase Fiber
+Number of tests for this inclusion : 2
+Current phase volume fraction : 0.0654807
+
+Inclusion nb 70 in phase Fiber
+Number of tests for this inclusion : 32
+Current phase volume fraction : 0.0664297
+
+Inclusion nb 71 in phase Fiber
+Number of tests for this inclusion : 27
+Current phase volume fraction : 0.0673786
+
+Inclusion nb 72 in phase Fiber
+Number of tests for this inclusion : 13
+Current phase volume fraction : 0.0683276
+
+Inclusion nb 73 in phase Fiber
+Number of tests for this inclusion : 3
+Current phase volume fraction : 0.0692767
+
+Inclusion nb 74 in phase Fiber
+Number of tests for this inclusion : 2
+Current phase volume fraction : 0.0702257
+
+Inclusion nb 75 in phase Fiber
+Number of tests for this inclusion : 18
+Current phase volume fraction : 0.0711746
+
+Inclusion nb 76 in phase Fiber
+Number of tests for this inclusion : 17
+Current phase volume fraction : 0.0721236
+
+Inclusion nb 77 in phase Fiber
+Number of tests for this inclusion : 6
+Current phase volume fraction : 0.0730726
+
+Inclusion nb 78 in phase Fiber
+Number of tests for this inclusion : 11
+Current phase volume fraction : 0.0740224
+
+Inclusion nb 79 in phase Fiber
+Number of tests for this inclusion : 11
+Current phase volume fraction : 0.0749713
+
+Inclusion nb 80 in phase Fiber
+Number of tests for this inclusion : 4
+Current phase volume fraction : 0.0759202
+
+Inclusion nb 81 in phase Fiber
+Number of tests for this inclusion : 4
+Current phase volume fraction : 0.0768693
+
+Inclusion nb 82 in phase Fiber
+Number of tests for this inclusion : 1
+Current phase volume fraction : 0.0778182
+
+Inclusion nb 83 in phase Fiber
+Number of tests for this inclusion : 9
+Current phase volume fraction : 0.0787671
+
+Inclusion nb 84 in phase Fiber
+Number of tests for this inclusion : 8
+Current phase volume fraction : 0.079717
+
+Inclusion nb 85 in phase Fiber
+Number of tests for this inclusion : 2
+Current phase volume fraction : 0.080666
+
+Inclusion nb 86 in phase Fiber
+Number of tests for this inclusion : 12
+Current phase volume fraction : 0.081615
+
+Inclusion nb 87 in phase Fiber
+Number of tests for this inclusion : 23
+Current phase volume fraction : 0.082564
+
+Inclusion nb 88 in phase Fiber
+Number of tests for this inclusion : 13
+Current phase volume fraction : 0.083513
+
+Inclusion nb 89 in phase Fiber
+Number of tests for this inclusion : 39
+Current phase volume fraction : 0.0844621
+
+Inclusion nb 90 in phase Fiber
+Number of tests for this inclusion : 4
+Current phase volume fraction : 0.0854111
+
+Inclusion nb 91 in phase Fiber
+Number of tests for this inclusion : 8
+Current phase volume fraction : 0.08636
+
+Inclusion nb 92 in phase Fiber
+Number of tests for this inclusion : 54
+Current phase volume fraction : 0.087309
+
+Inclusion nb 93 in phase Fiber
+Number of tests for this inclusion : 13
+Current phase volume fraction : 0.088258
+
+Inclusion nb 94 in phase Fiber
+Number of tests for this inclusion : 54
+Current phase volume fraction : 0.089207
+
+Inclusion nb 95 in phase Fiber
+Number of tests for this inclusion : 23
+Current phase volume fraction : 0.0901561
+
+Inclusion nb 96 in phase Fiber
+Number of tests for this inclusion : 39
+Current phase volume fraction : 0.0911051
+
+Inclusion nb 97 in phase Fiber
+Number of tests for this inclusion : 18
+Current phase volume fraction : 0.0920541
+
+Inclusion nb 98 in phase Fiber
+Number of tests for this inclusion : 22
+Current phase volume fraction : 0.093003
+
+Inclusion nb 99 in phase Fiber
+Number of tests for this inclusion : 1
+Current phase volume fraction : 0.0939519
+
+Inclusion nb 100 in phase Fiber
+Number of tests for this inclusion : 21
+Current phase volume fraction : 0.094901
+
+Inclusion nb 101 in phase Fiber
+Number of tests for this inclusion : 17
+Current phase volume fraction : 0.09585
+
+Inclusion nb 102 in phase Fiber
+Number of tests for this inclusion : 44
+Current phase volume fraction : 0.0967989
+
+Inclusion nb 103 in phase Fiber
+Number of tests for this inclusion : 45
+Current phase volume fraction : 0.0977479
+
+Inclusion nb 104 in phase Fiber
+Number of tests for this inclusion : 8
+Current phase volume fraction : 0.0986969
+
+Inclusion nb 105 in phase Fiber
+Number of tests for this inclusion : 5
+Current phase volume fraction : 0.0996458
+Total time for generation of phase Fiber: 0 seconds
+Starting generation of phase Voids...
+
+Inclusion nb 1 in phase Voids
+Number of tests for this inclusion : 3
+Current phase volume fraction : 0.101848
+
+Inclusion nb 2 in phase Voids
+Number of tests for this inclusion : 12
+Current phase volume fraction : 0.203935
+
+Inclusion nb 3 in phase Voids
+Number of tests for this inclusion : 8
+Current phase volume fraction : 0.284807
+Total time for generation of phase Voids: 0 seconds
+Total time for generation of phases : 1 seconds
+Volume fractions reached :
+Phase Fiber : 0.0996458 with 105 inclusions (reference: 0.1)
+
+Phase Voids : 0.284807 with 3 inclusions (reference: 0.3)
+
+
+
+Total time for computing matrix phase : 0 seconds
+
+# DIGIMAT FE INFO : DIGIMATFE ANALYSIS COMPLETED
+
+
+# DIGIMAT FE INFO : Total time for computing RVE : 1 seconds
+
