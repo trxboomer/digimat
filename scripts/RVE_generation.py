@@ -12,6 +12,7 @@
 import os
 import math
 from random import randint
+from loguru import logger
 
 # run digimat to get digimat generated .inps
 # modify .daf file
@@ -21,9 +22,7 @@ from random import randint
 # pc="lab"
 pc = "office"
 
-batch_label = "_batch003_"  # adjust this
-working_directory = r"C:\MSC.Software\Digimat\working"
-digimat_path = r"C:\MSC.Software\Digimat\shortcuts\DigimatFE20181.bat"
+digimat_path = r"C:\MSC.Software\Digimat\2024.1\DigimatFE\exec\DigimatFE.bat"
 
 
 def generate_daf_file(
@@ -50,12 +49,14 @@ def generate_daf_file(
                 out_file.write(line)
 
 
-def run_daf_files(daf_file_path: str, output_path: str):
+def run_daf_files(daf_file_path: str, output_path: str, log_path: str):
 
     filenames = [f for f in os.listdir(daf_file_path) if f.endswith(".daf")]
-    for files in filenames:
+    num_jobs = len(filenames)
+    for idx, files in enumerate(filenames):
         text = f"{digimat_path} -runFEWorkflow input={daf_file_path}\\{files} workingDir={output_path}"
         os.system(text)
+        logger.success(f"Completed {idx}/{num_jobs} jobs")
 
 
 if __name__ == "__main__":
@@ -70,4 +71,5 @@ if __name__ == "__main__":
     run_daf_files(
         daf_file_path=r"C:\Users\harryhz\Documents\digimat_scripts\digimat\Template\test",
         output_path=r"D:\digimat_test",
+        log_path="",
     )

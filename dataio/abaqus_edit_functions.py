@@ -138,4 +138,5 @@ class change_material_property(Template):
             else:
                 new_lines.append(line)
 
+        self.reached_material_properties = False
         return new_lines, self.skip_lines

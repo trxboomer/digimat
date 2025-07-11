@@ -13,34 +13,34 @@ specific_heat_capacity = 1.000000000000000e-04
 MATERIAL
 name = Carbon_Fiber
 type = linear_fourier
-density = 1.000000000000000e-04
+density = 1.79e-3
 consistent_tangent = on
 thermal_model = isotropic
 thermal_conductivity = 1.000000000000000e-03
-specific_heat_capacity = 1.000000000000000e-04
+specific_heat_capacity = 1.134
 
 ##########################################
 MATERIAL
 name = Polymer
 type = linear_fourier
-density = 1.000000000000000e-04
+density = 1.27e-3
 consistent_tangent = on
 thermal_model = isotropic
-thermal_conductivity = 1.000000000000000e-04
-specific_heat_capacity = 1.000000000000000e-04
+thermal_conductivity = 2.2e-4
+specific_heat_capacity = 1.258
 
 ##########################################
 PHASE
 name = Matrix
 type = matrix
-volume_fraction = 6.000000000000001e-01
+volume_fraction = 6.900000000000001e-01
 material = Polymer
 
 ##########################################
 PHASE
 name = Fiber
 type = inclusion_fe
-volume_fraction = 1.000000000000000e-01
+volume_fraction = 8.000000000000000e-02
 material = Carbon_Fiber
 inclusion_shape = spherocylinder
 aspect_ratio = 1.000000000000000e+01
@@ -68,7 +68,7 @@ no_tie_on_fiber_tips = no
 PHASE
 name = Voids
 type = void_fe
-volume_fraction = 3.000000000000000e-01
+volume_fraction = 2.300000000000000e-01
 inclusion_shape = ellipsoid
 aspect_ratio = 1.000000000000000e+00
 phase_definition = by_size_and_ar
@@ -119,7 +119,7 @@ microstructure = Microstructure1
 MESH
 mesh_type = conforming
 automatic_mesh_sizing = off
-element_size = 2.500000000000000e-03
+element_size = 1.200000000000000e-03
 minimum_element_size = 5.000000000000000e-04
 use_quadratic_elements = off
 use_quadratic_geometric_elements = off
@@ -147,7 +147,7 @@ initial_time_inc = 1.000000000000000e+00
 max_number_increment = 2
 rve_size_definition = user_defined
 rve_dimension = 3d
-size_rve = 1.000000000000000e-01
+size_rve = 1.00000000000000e-01
 periodic = yes
 generation_sequence = phase_per_phase
 generate_matrix = no

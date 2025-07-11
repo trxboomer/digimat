@@ -58,7 +58,7 @@ def run(
         material_name="Carbon_Fiber",
         property_name="Conductivity",
         new_isotropy="Orthotropic",
-        new_values=(1, 1, 1),
+        new_values=(6.83e-3, 2.18e-3, 2.18e-3),
     )
 
     all_functions: list[TemplateEditFunction] = [
@@ -79,7 +79,7 @@ def batched_run(input_path: str, output_path: str):
     filenames = [f for f in os.listdir(input_path) if f.endswith(".inp")]
 
     for file in filenames:
-        run(input_filename=file, input_path=input_path, output_path=output_path)
+        run(input_filename=file[:-4], input_path=input_path, output_path=output_path)
 
 
 if __name__ == "__main__":
