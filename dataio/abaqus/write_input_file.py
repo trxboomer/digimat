@@ -1,9 +1,8 @@
 from io import TextIOWrapper
 from typing import List
 from loguru import logger
-from .read_abaqus_input_file import AbaqusInputFileError
-from datetime import datetime
-from .TemplateAbaqusEditFunction import TemplateEditFunction
+from .read_input_file import AbaqusInputFileError
+from .edit_functions.TemplateEditFunction import TemplateEditFunction
 import os
 
 

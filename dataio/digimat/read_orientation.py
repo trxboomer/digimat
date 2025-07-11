@@ -2,7 +2,7 @@ from typing import Literal, Union, Tuple
 import numpy as np
 from numpy import typing as npt
 from loguru import logger
-from .data_parsing import line_to_list
+from ..data_parsing import line_to_list
 
 
 class OrientationFileError(Exception):

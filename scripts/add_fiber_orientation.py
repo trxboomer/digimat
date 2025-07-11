@@ -1,13 +1,17 @@
-import pstats
-from dataio.TemplateAbaqusEditFunction import TemplateEditFunction
-from dataio.read_abaqus_input_file import AbaqusInputFile as rAbaqusIF
-from dataio.write_abaqus_input_file import modify_file
-from dataio.abaqus_edit_functions import add_orientation, change_material_property
-from dataio.read_digimat_orientation import DigimatPhaseOrientationFile as digimatPOF
+from dataio.abaqus.edit_functions.TemplateEditFunction import TemplateEditFunction
+from dataio.abaqus.read_input_file import AbaqusInputFile as rAbaqusIF
+from dataio.abaqus.write_input_file import modify_file
+from dataio.abaqus.edit_functions.add_orientation import add_orientation
+from dataio.abaqus.edit_functions.change_material_property import (
+    change_material_property,
+)
+
+from dataio.digimat.read_orientation import (
+    DigimatPhaseOrientationFile as digimatPOF,
+)
 import os
 import zipfile
 from loguru import logger
-import cProfile
 
 """
 Notes:

@@ -1,7 +1,7 @@
 from typing import Literal, TypedDict
 from io import TextIOWrapper
 from loguru import logger
-from .data_parsing import line_to_list
+from ..data_parsing import line_to_list
 
 
 class keyword_info(TypedDict):
