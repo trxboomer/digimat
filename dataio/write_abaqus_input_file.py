@@ -89,11 +89,7 @@ class modify_file:
             TextIOWrapper: _description_
         """
         try:
-            now = datetime.now()
-            timestamp = now.strftime("%Y-%m-%d_%H-%M-%S")
-            file = open(
-                f"{self.output_path}/{self.output_filename}-{timestamp}.inp", "w"
-            )
+            file = open(f"{self.output_path}/{self.output_filename}.inp", "w")
             logger.info(
                 f"Created new input file for {self.output_filename} in {self.output_path}"
             )

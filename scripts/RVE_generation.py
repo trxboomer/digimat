@@ -27,11 +27,11 @@ digimat_path = r"C:\MSC.Software\Digimat\shortcuts\DigimatFE20181.bat"
 
 
 def generate_daf_file(
-    template_file_name: str,
     new_daf_name: str,
     num_samples: int,
     template_directory: str,
     output_dir: str,
+    template_file_name: str = "Template",
 ):
 
     with open(f"{template_directory}/{template_file_name}.daf", "r") as in_file:

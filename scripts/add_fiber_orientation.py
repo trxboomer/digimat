@@ -22,7 +22,7 @@ Abaqus input file and digimat zipped outputs should all be in the same directory
 
 
 @logger.catch
-def main(
+def run(
     input_filename: str,
     input_path: str,
     output_path: str,
@@ -75,8 +75,15 @@ def main(
     new_file.copy_and_edit()
 
 
+def batched_run(input_path: str, output_path: str):
+    filenames = [f for f in os.listdir(input_path) if f.endswith(".inp")]
+
+    for file in filenames:
+        run(input_filename=file, input_path=input_path, output_path=output_path)
+
+
 if __name__ == "__main__":
-    main(
+    run(
         input_filename="test_0",
         input_path=r"D:\digimat_test",
         output_path=r"D:\digimat_test\modified",
