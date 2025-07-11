@@ -1,30 +1,24 @@
-from dataio.abaqus.edit_functions.TemplateEditFunction import TemplateEditFunction
+import shutil
 
 
-class add_step(TemplateEditFunction):
-    """Creates a new step using the *Include
+def add_step(
+    input_file: str,
+    input_path: str,
+    step_names: list[str],
+    output_path: str,
+    no_step: bool = True,
+):
+    """Creates a input and adds a new step to it using the *Include keyword provided by Abaqus
 
     Args:
-        TemplateEditFunction (_type_): _description_
+        input_file (str): Input file of interest, including extension name
+        step_names (list[str]): list of .inc files that contains steps
     """
+    original_input_path = f"{input_path}\\{input_file}"
+    for step_file in step_names:
+        step_name = step_file[:-3]
+        output_file_path = f"{output_path}\\{input_file[:-3]}-{step_name}.inp"
+        shutil.copy(original_input_path, output_file_path)
 
-    def __init__(self, step_name: str, step_lines: str, end_file: bool = True) -> None:
-        self.step_name = step_name
-        self.step_lines = step_lines
-        self.end_file = end_file
-
-    def description(self) -> str:
-        return "Creates a new step in the abaqus input file"
-
-    def common_name(self) -> str:
-        return "Add Step"
-
-    def check_line(self, lines: list[str]) -> bool:
-        if any(self.step_name in line for line in lines):
-            return True
-        else:
-            return False
-
-    def process_line(self, lines: list[str]) -> tuple[list[str], int]:
-
-        return super().process_line(lines)
+        with open(output_file_path, "a") as file:
+            file.write(f"*INCLUDE, INPUT={step_name}")

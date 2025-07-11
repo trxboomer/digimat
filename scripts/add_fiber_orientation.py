@@ -57,7 +57,7 @@ def run(
     orientation_function = add_orientation(
         phase_name=fiber_name, orientation_list=orientation
     )
-    # TODO: Check material properties
+
     fiber_conductivity = change_material_property(
         material_name="Carbon_Fiber",
         property_name="Conductivity",
@@ -69,6 +69,7 @@ def run(
         orientation_function,
         fiber_conductivity,
     ]
+
     new_file = modify_file(
         input_filename=input_filename,
         open_input_file=abaqus_original.file,
@@ -76,7 +77,7 @@ def run(
         edit_functions=all_functions,
     )
 
-    new_file.copy_and_edit()
+    new_file.copy_and_edit(break_point="STEP")
 
 
 def batched_run(input_path: str, output_path: str):

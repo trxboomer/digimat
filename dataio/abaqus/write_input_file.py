@@ -108,9 +108,13 @@ class modify_file:
         skip_lines = 0 if total_lines == [] else max(total_lines)
         return lines, skip_lines
 
-    def copy_and_edit(self):
+    def copy_and_edit(self, break_point: str | None = None):
         self.input_file.seek(0)
         for line in self.input_file:
+            if break_point is not None:
+                if break_point in line:
+                    break
+
             if "*" in line:
                 new_lines, skip_lines = self.edit_line([line])
                 for new_line in new_lines:
