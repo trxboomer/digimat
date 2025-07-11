@@ -35,10 +35,10 @@ def main(
         potential_phase_name=potential_phase_name, return_name=True
     )
 
-    orientation_file_name = f"{input_filename}_{fiber_name}_orientation.txt"
-    zip_path = (
-        f"{input_path}/{input_filename}.zip"  # TODO: Add correct name for zip_file
+    orientation_file_name = (
+        f"DefaultJobName_{input_filename}_{fiber_name}_orientation.txt"
     )
+    zip_path = f"{input_path}\\DefaultJobName_{input_filename}.zip"  # TODO: Add correct name for zip_file
     if not os.path.exists(zip_path):
         raise FileNotFoundError(
             f"Input file zip file could not be found, search for the following path: {zip_path}"
@@ -77,7 +77,7 @@ def main(
 
 if __name__ == "__main__":
     main(
-        input_filename="Template",
-        input_path="/home/harry/Documents/digimat/Template",
-        output_path="/home/harry/Documents/digimat/Validation/modified",
+        input_filename="test_0",
+        input_path=r"D:\digimat_test",
+        output_path=r"D:\digimat_test\modified",
     )

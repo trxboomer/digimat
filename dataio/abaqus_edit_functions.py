@@ -24,7 +24,7 @@ class add_orientation(Template):
 
     def check_line(self, lines: list[str]) -> bool:
         for line in lines:
-            if "Solid Section" in line and f"{self.phase_name}_" in line:
+            if "Solid Section" in line and f"{self.phase_name}" in line:
                 return True
 
         return False
@@ -44,26 +44,28 @@ class add_orientation(Template):
             tuple[list[str], int]: _description_
         """
         for line in lines:
-            if "Solid Section" not in line or f"{self.phase_name}_" not in line:
+            if "Solid Section" not in line or f"{self.phase_name}" not in line:
                 continue
-            param_list = line_to_list(line)
 
-            # logger.debug(f"Parameters list: {param_list}")
-            fiber_name = param_list[1].split("=")[1]
-            fiber_num = fiber_name.split("_")[1]
-            row = self.orientation_list[int(fiber_num)]
+            new_lines: list[str] = []
+            for fiber_num, row in enumerate(self.orientation_list):
+                # logger.debug(f"Parameters list: {param_list}")
+                row = self.orientation_list[int(fiber_num)]
 
-            a_points = vt.spherical_to_cartesian(theta=row[1], phi=row[2])
-            b_points = vt.perpendicular_vector(a_points)
-            orientation_name = self.next_orientation_ID()
-            orientation = np.append(a_points, b_points)
+                a_points = vt.spherical_to_cartesian(theta=row[0], phi=row[1])
+                b_points = vt.perpendicular_vector(a_points)
+                orientation_name = self.next_orientation_ID()
+                orientation = np.append(a_points, b_points)
 
-            new_lines: list[str] = [f"*Orientation, name={orientation_name}\n"]
-            new_lines.append(", ".join(f"{x:6e}" for x in orientation) + "\n")
-            new_lines.append("3, 0.\n")
-            new_lines.append(f"{line}, orientation={orientation_name}\n")
+                new_lines.append(f"*Orientation, name={orientation_name}\n")
+                new_lines.append(", ".join(f"{x:6e}" for x in orientation) + "\n")
+                new_lines.append("3, 0.\n")
+                new_lines.append(
+                    f"*Solid Section, elset={self.phase_name}_{fiber_num}, material=Carbon_Fiber, orientation={orientation_name}\n"
+                )
+                new_lines.append(",\n")
 
-            return new_lines, self.lines_to_skip
+        return new_lines, self.lines_to_skip
 
 
 class change_material_property(Template):

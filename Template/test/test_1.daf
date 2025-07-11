@@ -136,7 +136,7 @@ cohesive_element_size_ratio = 2.000000000000000e-01
 
 ##########################################
 ANALYSISFE
-name = test_1_3
+name = test_1
 type = thermal_conductivity
 loading_name = Temperature_gradient
 final_time = 1.000000000000000e+00
@@ -155,7 +155,7 @@ track_global_percolation_onset = no
 stop_at_global_percolation = no
 check_final_global_percolation = no
 random_seed_type = custom
-random_seed = 120438646
+random_seed = 654694123
 fe_solver = Abaqus/INP
 unsymmetric_solver = no
 default_timestepping = yes

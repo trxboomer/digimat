@@ -63,6 +63,11 @@ if __name__ == "__main__":
         template_file_name="Template",
         new_daf_name="test",
         num_samples=5,
-        template_directory="/home/harry/Documents/digimat/Template",
-        output_dir="/home/harry/Documents/digimat/Template/test",
+        template_directory=r"C:\Users\harryhz\Documents\digimat_scripts\digimat\Template",
+        output_dir=r"C:\Users\harryhz\Documents\digimat_scripts\digimat\Template\test",
+    )
+
+    run_daf_files(
+        daf_file_path=r"C:\Users\harryhz\Documents\digimat_scripts\digimat\Template\test",
+        output_path=r"D:\digimat_test",
     )
