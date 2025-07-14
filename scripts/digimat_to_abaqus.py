@@ -1,8 +1,5 @@
 import scripts.add_fiber_orientation as afo
-from scripts.RVE_generation import (
-    generate_daf_file as generate_daf,
-    run_daf_files as run_daf,
-)
+import dataio.digimat.RVE_generation as rve
 import os
 import datetime
 from loguru import logger
@@ -57,7 +54,7 @@ shutil.copy(src, dst)
 
 logger.info(f"Copied Template daf file from {src} to {dst}")
 
-generate_daf(
+rve.generate_daf(
     new_daf_name=new_daf_name,
     num_samples=num_samples,
     template_directory=template_directory,
@@ -66,6 +63,8 @@ generate_daf(
 
 logger.success("Created new daf files based off template")
 
-run_daf(daf_file_path=digimat_in_dir, output_path=digimat_out_dir, log_path=new_dir)
+rve.batched_run(
+    daf_file_path=digimat_in_dir, output_path=digimat_out_dir, log_path=new_dir
+)
 
 afo.batched_run(input_path=digimat_out_dir, output_path=abaqus_inp_dir)

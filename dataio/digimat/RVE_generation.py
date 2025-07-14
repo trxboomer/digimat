@@ -25,7 +25,7 @@ pc = "office"
 digimat_path = r"C:\MSC.Software\Digimat\2024.1\DigimatFE\exec\DigimatFE.bat"
 
 
-def generate_daf_file(
+def generate_daf(
     new_daf_name: str,
     num_samples: int,
     template_directory: str,
@@ -49,7 +49,7 @@ def generate_daf_file(
                 out_file.write(line)
 
 
-def run_daf_files(daf_file_path: str, output_path: str, log_path: str):
+def batched_run(daf_file_path: str, output_path: str, log_path: str):
 
     filenames = [f for f in os.listdir(daf_file_path) if f.endswith(".daf")]
     num_jobs = len(filenames)
@@ -60,7 +60,7 @@ def run_daf_files(daf_file_path: str, output_path: str, log_path: str):
 
 
 if __name__ == "__main__":
-    generate_daf_file(
+    generate_daf(
         template_file_name="Template",
         new_daf_name="test",
         num_samples=5,
@@ -68,7 +68,7 @@ if __name__ == "__main__":
         output_dir=r"C:\Users\harryhz\Documents\digimat_scripts\digimat\Template\test",
     )
 
-    run_daf_files(
+    batched_run(
         daf_file_path=r"C:\Users\harryhz\Documents\digimat_scripts\digimat\Template\test",
         output_path=r"D:\digimat_test",
         log_path="",
