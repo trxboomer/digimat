@@ -16,8 +16,8 @@ def add_step(
     """
     original_input_path = f"{input_path}\\{input_file}"
     for step_file in step_names:
-        step_name = step_file[:-3]
-        output_file_path = f"{output_path}\\{input_file[:-3]}-{step_name}.inp"
+        step_name = step_file[:-4]
+        output_file_path = f"{output_path}\\{input_file[:-4]}-{step_name}.inp"
         shutil.copy(original_input_path, output_file_path)
 
         with open(output_file_path, "a") as file:

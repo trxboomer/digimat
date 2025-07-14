@@ -1,5 +1,5 @@
 from typing import Literal
-from ..TemplateEditFunction import TemplateEditFunction as Template
+from .TemplateEditFunction import TemplateEditFunction as Template
 
 
 class change_material_property(Template):

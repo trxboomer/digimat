@@ -1,7 +1,8 @@
 import itertools
 import os
 import shutil
-from change_step import add_step
+from .change_step import add_step
+from loguru import logger
 
 
 def check_directory(dir_path: str):
@@ -17,12 +18,13 @@ def check_directory(dir_path: str):
         files = [
             f
             for f in os.listdir(current_dir)
-            if os.path.isfile(os.path.join(current_dir, f)) and f.endswith(".inp")
+            if os.path.isfile(os.path.join(current_dir, f)) and f.endswith(".txt")
         ]
 
         if files != []:
             include_dir.update({directory: files})
 
+    logger.debug(f"Include sets found: {directories}")
     return include_dir
 
 
@@ -100,3 +102,11 @@ def append_to_file(
             step_names=include_set["step"],
             output_path=input_file_dir,
         )
+
+
+if __name__ == "__main__":
+    append_to_file(
+        include_dir=r"D:\digimat_test\test-20250711_13-07\include",
+        input_dir=r"D:\digimat_test\test-20250711_13-07\abaqus_inp",
+        output_dir=r"D:\digimat_test\test-20250711_13-07\abaqus",
+    )
