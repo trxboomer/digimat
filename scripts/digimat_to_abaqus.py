@@ -1,5 +1,7 @@
 import scripts.add_fiber_orientation as afo
 import dataio.digimat.RVE_generation as rve
+import dataio.abaqus.include_functions.add_include as include
+from script_utils import change_extension
 import os
 import datetime
 from loguru import logger
@@ -67,4 +69,8 @@ rve.batched_run(
     daf_file_path=digimat_in_dir, output_path=digimat_out_dir, log_path=new_dir
 )
 
-afo.batched_run(input_path=digimat_out_dir, output_path=abaqus_inp_dir)
+afo.batched_run(input_path=digimat_out_dir, output_path=abaqus_inp_dir, extension_type= "inp")
+
+change_extension.batch(path= abaqus_inp_dir, old_extension= "inp", new_extension="inc")
+
+include.append_to_file()
