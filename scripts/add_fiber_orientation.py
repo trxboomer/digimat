@@ -1,3 +1,4 @@
+from typing import Literal
 from dataio.abaqus.edit_functions.TemplateEditFunction import TemplateEditFunction
 from dataio.abaqus.read_input_file import AbaqusInputFile as rAbaqusIF
 from dataio.abaqus.write_input_file import modify_file
@@ -30,6 +31,7 @@ def run(
     input_filename: str,
     input_path: str,
     output_path: str,
+    break_point: str,
     potential_phase_name: list[str] = ["Fiber"],
 ):
     abaqus_original = rAbaqusIF(filename=f"{input_filename}.inp", path=input_path)
@@ -77,14 +79,14 @@ def run(
         edit_functions=all_functions,
     )
 
-    new_file.copy_and_edit(break_point="STEP")
+    new_file.copy_and_edit(break_point)
 
 
-def batched_run(input_path: str, output_path: str):
-    filenames = [f for f in os.listdir(input_path) if f.endswith(".inp")]
+def batched_run(input_path: str, output_path: str, break_point, extension_type: Literal["inp","inc"]):
+    filenames = [f for f in os.listdir(input_path) if f.endswith(f".{extension_type}")]
 
     for file in filenames:
-        run(input_filename=file[:-4], input_path=input_path, output_path=output_path)
+        run(input_filename=file[:-4], input_path=input_path, output_path=output_path, break_point=break_point)
 
 
 if __name__ == "__main__":
