@@ -14,11 +14,12 @@ def add_step(
         input_file (str): Input file of interest, including extension name
         step_names (list[str]): list of .inc files that contains steps
     """
-    original_input_path = f"{input_path}\\{input_file}"
+    original_input_path = f"{input_path}{input_file}"
     for step_file in step_names:
         step_name = step_file[:-4]
-        output_file_path = f"{output_path}\\{input_file[:-4]}-{step_name}.inp"
+        output_file_path = f"{output_path}/{input_file[:-4]}-{step_name}.inp"
         shutil.copy(original_input_path, output_file_path)
 
         with open(output_file_path, "a") as file:
-            file.write(f"*INCLUDE, INPUT={step_name}")
+            file.write(f"**STEP Step = {step_name}\n")
+            file.write(f"*INCLUDE, INPUT={step_file}")

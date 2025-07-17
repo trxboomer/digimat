@@ -1,7 +1,7 @@
 import itertools
 import os
 import shutil
-from .change_step import add_step
+from change_step import add_step
 from loguru import logger
 
 
@@ -14,11 +14,11 @@ def check_directory(dir_path: str):
         raise FileNotFoundError(f"No include sets found in {dir_path}")
 
     for directory in directories:
-        current_dir = f"{dir_path}\\{directory}"
+        current_dir = f"{dir_path}{directory}"
         files = [
             f
             for f in os.listdir(current_dir)
-            if os.path.isfile(os.path.join(current_dir, f)) and f.endswith(".txt")
+            if os.path.isfile(os.path.join(current_dir, f)) and f.endswith(".inp")
         ]
 
         if files != []:
@@ -86,15 +86,16 @@ def append_to_file(
     """
 
     include_set = check_directory(include_dir)
+    logger.debug(f"Sets to include {include_set}")
     input_files = [f for f in os.listdir(input_dir) if f.endswith("inp")]
 
     for input_file in input_files:
-        input_file_dir = f"{output_dir}\\{input_file[:-4]}"
+        input_file_dir = f"{output_dir}{input_file[:-4]}"
         os.mkdir(input_file_dir)
         for include_file in include_set["step"]:
             shutil.copy(
-                f"{include_dir}\\step\\{include_file}",
-                f"{input_file_dir}\\{include_file}",
+                f"{include_dir}/step/{include_file}",
+                f"{input_file_dir}/{include_file}",
             )
         add_step(
             input_file=input_file,
@@ -106,7 +107,7 @@ def append_to_file(
 
 if __name__ == "__main__":
     append_to_file(
-        include_dir=r"D:\digimat_test\test-20250711_13-07\include",
-        input_dir=r"D:\digimat_test\test-20250711_13-07\abaqus_inp",
-        output_dir=r"D:\digimat_test\test-20250711_13-07\abaqus",
+        include_dir=r"/home/harry/Documents/abaqus/test-20250714_13-12/include/",
+        input_dir=r"/home/harry/Documents/abaqus/test-20250714_13-12/abaqus_inp/",
+        output_dir=r"/home/harry/Documents/abaqus/test-20250714_13-12/abaqus_inp_steps/",
     )
