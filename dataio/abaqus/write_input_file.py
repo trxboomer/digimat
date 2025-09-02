@@ -1,8 +1,10 @@
 from io import TextIOWrapper
 from typing import List
 from loguru import logger
-from .read_input_file import AbaqusInputFileError
-from .edit_functions.TemplateEditFunction import TemplateEditFunction
+from digimat_scripts.dataio.abaqus.read_input_file import AbaqusInputFileError
+from digimat_scripts.dataio.abaqus.edit_functions.TemplateEditFunction import (
+    TemplateEditFunction,
+)
 import os
 
 

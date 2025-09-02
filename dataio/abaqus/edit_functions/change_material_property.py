@@ -1,5 +1,7 @@
 from typing import Literal
-from .TemplateEditFunction import TemplateEditFunction as Template
+from digimat_scripts.dataio.abaqus.edit_functions.TemplateEditFunction import (
+    TemplateEditFunction as Template,
+)
 
 
 class change_material_property(Template):

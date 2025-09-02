@@ -13,6 +13,7 @@ import os
 import math
 from random import randint
 from loguru import logger
+import tqdm
 
 # run digimat to get digimat generated .inps
 # modify .daf file
@@ -50,13 +51,12 @@ def generate_daf(
 
 
 def batched_run(daf_file_path: str, output_path: str, log_path: str):
-
     filenames = [f for f in os.listdir(daf_file_path) if f.endswith(".daf")]
-    num_jobs = len(filenames)
-    for idx, files in enumerate(filenames):
-        text = f"{digimat_path} -runFEWorkflow input={daf_file_path}\\{files} workingDir={output_path}"
+    logs_dir = f"{output_path}\\logs"
+    os.mkdir(logs_dir)
+    for files in tqdm.tqdm(filenames, desc="Processing RVE Generation"):
+        text = f"{digimat_path} -runFEWorkflow input={daf_file_path}\\{files} workingDir={output_path} >> {logs_dir}\\output-{files[:-4]}.txt 2>&1"
         os.system(text)
-        logger.success(f"Completed {idx}/{num_jobs} jobs")
 
 
 if __name__ == "__main__":

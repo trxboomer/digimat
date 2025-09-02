@@ -1,8 +1,11 @@
-from typing import Literal, LiteralString
-from .TemplateEditFunction import TemplateEditFunction as Template
+from typing import LiteralString
+from digimat_scripts.dataio.abaqus.edit_functions.TemplateEditFunction import (
+    TemplateEditFunction as Template,
+)
+
 import numpy as np
 import numpy.typing as npt
-from math_util import vector_transformation as vt
+from digimat_scripts.math_util import vector_transformation as vt
 
 
 class add_orientation(Template):

@@ -1,13 +1,14 @@
 from typing import Literal
-from dataio.abaqus.edit_functions.TemplateEditFunction import TemplateEditFunction
-from dataio.abaqus.read_input_file import AbaqusInputFile as rAbaqusIF
-from dataio.abaqus.write_input_file import modify_file
-from dataio.abaqus.edit_functions.add_orientation import add_orientation
-from dataio.abaqus.edit_functions.change_material_property import (
+from digimat_scripts.dataio.abaqus.edit_functions.TemplateEditFunction import (
+    TemplateEditFunction,
+)
+from digimat_scripts.dataio.abaqus.read_input_file import AbaqusInputFile as rAbaqusIF
+from digimat_scripts.dataio.abaqus.write_input_file import modify_file
+from digimat_scripts.dataio.abaqus.edit_functions.add_orientation import add_orientation
+from digimat_scripts.dataio.abaqus.edit_functions.change_material_property import (
     change_material_property,
 )
-
-from dataio.digimat.read_orientation import (
+from digimat_scripts.dataio.digimat.read_orientation import (
     DigimatPhaseOrientationFile as digimatPOF,
 )
 import os
@@ -82,11 +83,21 @@ def run(
     new_file.copy_and_edit(break_point)
 
 
-def batched_run(input_path: str, output_path: str, break_point, extension_type: Literal["inp","inc"]):
+def batched_run(
+    input_path: str,
+    output_path: str,
+    break_point: str,
+    extension_type: Literal["inp", "inc"],
+):
     filenames = [f for f in os.listdir(input_path) if f.endswith(f".{extension_type}")]
 
     for file in filenames:
-        run(input_filename=file[:-4], input_path=input_path, output_path=output_path, break_point=break_point)
+        run(
+            input_filename=file[:-4],
+            input_path=input_path,
+            output_path=output_path,
+            break_point=break_point,
+        )
 
 
 if __name__ == "__main__":
