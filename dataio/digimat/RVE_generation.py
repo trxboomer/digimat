@@ -13,6 +13,7 @@ import os
 import math
 from random import randint
 from loguru import logger
+import datetime
 import tqdm
 
 # run digimat to get digimat generated .inps
@@ -23,7 +24,7 @@ import tqdm
 # pc="lab"
 pc = "office"
 
-digimat_path = r"C:\MSC.Software\Digimat\2024.1\DigimatFE\exec\DigimatFE.bat"
+digimat_path = r"C:\MSC.Software\Digimat\2025.1\DigimatFE\exec\DigimatFE.bat"
 
 
 def generate_daf(
@@ -48,11 +49,37 @@ def generate_daf(
                 if line == "random_seed = 1\n":
                     line = f"random_seed = {str(randint(1**10, 9**10))}\n"
                 out_file.write(line)
+                
+def generate_single_daf(
+    new_daf_name: str,
+    template_directory: str,
+    output_dir: str,
+    template_file_name: str = "Template",
+):
+    print(new_daf_name)
+    with open(f"{template_directory}/{template_file_name}.daf", "r") as in_file:
+        template_daf_lines = in_file.readlines()
+    name = new_daf_name
+    with open(f"{output_dir}/{name}.daf", "w") as out_file:
+        for line in template_daf_lines:
+            if line == "name = Template\n":
+                line = f"name = {name}\n"
+            if line == "random_seed = 1\n":
+                line = f"random_seed = {str(randint(1**10, 9**10))}\n"
+            out_file.write(line)
 
-
+def create_rve(daf_file_path:str, daf_name:str, output_path:str,log_path:str):
+    logs_dir = f"{output_path}\\logs"
+    if os.path.isdir(logs_dir) == False:
+        os.mkdir(logs_dir)
+    text = f"{digimat_path} -runFEWorkflow input={daf_file_path}\\{daf_name}.daf workingDir={output_path} >> {logs_dir}\\output-{daf_name}.txt 2>&1"
+    os.system(text)
+    
 def batched_run(daf_file_path: str, output_path: str, log_path: str):
     filenames = [f for f in os.listdir(daf_file_path) if f.endswith(".daf")]
-    logs_dir = f"{output_path}\\logs"
+    now = datetime.datetime.now()
+    dt_str = now.strftime("%Y%m%d_%H%M%S")
+    logs_dir = f"{output_path}\\logs_{dt_str}"
     os.mkdir(logs_dir)
     for files in tqdm.tqdm(filenames, desc="Processing RVE Generation"):
         text = f"{digimat_path} -runFEWorkflow input={daf_file_path}\\{files} workingDir={output_path} >> {logs_dir}\\output-{files[:-4]}.txt 2>&1"

@@ -7,7 +7,6 @@ import datetime
 from loguru import logger
 import shutil
 
-
 """
 Each execution of the script will follow these steps:
 
@@ -23,14 +22,14 @@ Output structure will look like this:
             |-> Digimat Logs
         |-> Abaqus Input Files (dir)
 """
-
-#Make sure that the analysis name in the daf file is "Template"
-template_file_name = "SSDM"
-new_daf_name = "SSDM"
-description = "FFF microstructural data SSDM"
-num_samples = 1
-template_directory = r"Y:\Students\Zhou_Harry\abaqus\template"
-temp_dir = r"C:\Users\harryhz\Documents\abaqus\temp"
+#  python -m digimat_scripts.scripts.digimat_to_abaqus_v3
+# Make sure that the analysis name in the daf file is "Template"
+template_file_name = "FPM14-nolayers"
+new_daf_name = "FPM14-nolayers"
+description = "FPM 1.4 Sample, no layers"
+num_samples = 5
+template_directory = r"Y:\Students\Zhou_Harry\abaqus\template\FPM14"
+temp_dir = r"D:\harryhz\Documents\abaqus\temp"
 output_dir = r"Y:\Students\Zhou_Harry\abaqus\working"
 
 job_name = f"{new_daf_name}"
@@ -75,19 +74,7 @@ rve.batched_run(
     daf_file_path=digimat_in_dir, output_path=digimat_out_dir, log_path=new_dir
 )
 
-afo.batched_run(
-    input_path=digimat_out_dir,
-    output_path=abaqus_inp_dir,
-    extension_type="inp",
-    break_point="STEP",
-)
-
-change_extension.batch(path=abaqus_inp_dir, old_extension="inp", new_extension="inc")
-
-with open(f"{output_dir}\\description.txt", "w") as f:
-    f.write(description)
-
 logger.remove()
 
 shutil.move(f"{new_dir}", f"{output_dir}")
-#  python -m digimat_scripts.scripts.digimat_to_abaqus
+

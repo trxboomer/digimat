@@ -23,3 +23,16 @@ def perpendicular_vector(
     return normal_vector / np.linalg.norm(
         normal_vector
     )  # Optional: make it a unit vector
+
+def angle_to_tensor(theta: np.float64, phi: np.float64):
+    theta_rad = np.deg2rad(theta)
+    phi_rad = np.deg2rad(phi)
+    x = np.sin(theta_rad) * np.cos(phi_rad)
+    y = np.sin(theta_rad) * np.sin(phi_rad)
+    z = np.cos(theta_rad)
+    
+    p = np.array([x,y,z])
+    
+    tensor = np.outer(p,p)
+    
+    return tensor
