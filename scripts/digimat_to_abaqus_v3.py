@@ -24,15 +24,16 @@ Output structure will look like this:
 """
 #  python -m digimat_scripts.scripts.digimat_to_abaqus_v3
 # Make sure that the analysis name in the daf file is "Template"
-template_file_name = "FPM14-nolayers"
-new_daf_name = "FPM14-nolayers"
-description = "FPM 1.4 Sample, no layers"
+template_file_name = "FPM14-layer1"
+new_daf_name = "FPM14-layer1"
+description = "FPM 1.4 Sample, layered, layer 1"
 num_samples = 5
 template_directory = r"Y:\Students\Zhou_Harry\abaqus\template\FPM14"
 temp_dir = r"D:\harryhz\Documents\abaqus\temp"
 output_dir = r"Y:\Students\Zhou_Harry\abaqus\working"
 
 job_name = f"{new_daf_name}"
+
 new_dir = f"{temp_dir}\\{job_name}"
 
 digimat_in_dir = f"{new_dir}\\digimat_inp"

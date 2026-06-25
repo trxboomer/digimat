@@ -26,11 +26,10 @@ Output structure will look like this:
 # Make sure that the analysis name in the daf file is "Template"
 
 
-def multiTemplate(template_directory,job_name,num_samples,temp_dir,output_dir):
-    daf_names = [f[:-4] for f in os.listdir(template_directory) if f.endswith(".daf")]
-    print(daf_names)
-    new_dir = f"{temp_dir}\\{job_name}"
+def singleTemplate(template_file_name,new_daf_name,num_samples,template_directory,temp_dir,output_dir):
+    job_name = f"{new_daf_name}"
 
+    new_dir = f"{temp_dir}\\{job_name}"
 
     digimat_in_dir = f"{new_dir}\\digimat_inp"
     digimat_out_dir = f"{new_dir}\\digimat_out"
@@ -51,29 +50,27 @@ def multiTemplate(template_directory,job_name,num_samples,temp_dir,output_dir):
 
     logger.info("Created new directories")
 
-    for template_file_name in daf_names:
-        src = f"{template_directory}\\{template_file_name}.daf"
-        dst = f"{new_dir}\\{template_file_name}.daf"
+    src = f"{template_directory}\\{template_file_name}.daf"
+    dst = f"{new_dir}\\Template.daf"
 
-        shutil.copy(src, dst)
+    shutil.copy(src, dst)
 
-        logger.info(f"Copied Template daf file from {src} to {dst}")
+    logger.info(f"Copied Template daf file from {src} to {dst}")
 
-        rve.generate_daf(
-            new_daf_name=template_file_name,
-            num_samples=num_samples,
-            template_directory=new_dir,
-            output_dir=digimat_in_dir,
-            template_file_name= template_file_name
-        )
+    rve.generate_daf(
+        new_daf_name=new_daf_name,
+        num_samples=num_samples,
+        template_directory=new_dir,
+        output_dir=digimat_in_dir,
+    )
 
-        logger.success("Created new daf files based off template")
+    logger.success("Created new daf files based off template")
 
-        rve.batched_run(
-            daf_file_path=digimat_in_dir, output_path=digimat_out_dir, log_path=new_dir
-        )
+    rve.batched_run(
+        daf_file_path=digimat_in_dir, output_path=digimat_out_dir, log_path=new_dir
+    )
 
-        logger.remove()
+    logger.remove()
 
     shutil.move(f"{new_dir}", f"{output_dir}")
 
