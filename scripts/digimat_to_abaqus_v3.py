@@ -24,8 +24,8 @@ Output structure will look like this:
 """
 #  python -m digimat_scripts.scripts.digimat_to_abaqus_v3
 # Make sure that the analysis name in the daf file is "Template"
-template_file_name = "FPM14-layer1"
-new_daf_name = "FPM14-layer1"
+template_file_name = "FPM14-nolayer_V2"
+new_daf_name = "FPM14-nolayer_V2"
 description = "FPM 1.4 Sample, layered, layer 1"
 num_samples = 5
 template_directory = r"Y:\Students\Zhou_Harry\abaqus\template\FPM14"

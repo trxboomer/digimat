@@ -87,23 +87,12 @@ def run(
 def check_fiber_orientation_tensor(    
     input_filename: str,
     input_path: str,
-    potential_phase_name: list[str] = ["Fiber"]):
-    abaqus_original = rAbaqusIF(filename=f"{input_filename}.inp", path=input_path)
-
-    abaqus_original.cache_keywords(("Elset",))
-    fiber_name = abaqus_original.get_phase_name(
-        potential_phase_name=potential_phase_name, return_name=True
-    )
+    phase_name: str = "Fiber"):
     
     orientation_file_name = (
-        f"DefaultJobName_{input_filename}_{fiber_name}_orientation.txt"
+        f"DefaultJobName_{input_filename}_{phase_name}_orientation.txt"
     )
-    abaqus_original = rAbaqusIF(filename=f"{input_filename}.inp", path=input_path)
-
-    abaqus_original.cache_keywords(("Elset",))
-    fiber_name = abaqus_original.get_phase_name(
-        potential_phase_name=potential_phase_name, return_name=True
-    )
+    
     zip_path = f"{input_path}\\DefaultJobName_{input_filename}.zip"  # TODO: Add correct name for zip_file
     if not os.path.exists(zip_path):
         raise FileNotFoundError(
@@ -113,7 +102,7 @@ def check_fiber_orientation_tensor(
     with zipfile.ZipFile(zip_path, "r") as zip_ref:
         zip_ref.extract(orientation_file_name, input_path)
 
-    orientation_file = digimatPOF(orientation_file_name, input_path, fiber_name)
+    orientation_file = digimatPOF(orientation_file_name, input_path, phase_name)
     orientation = orientation_file.get_csv(columns=("theta", "phi"))
     orientation_list = []
     for row in orientation:
@@ -125,7 +114,6 @@ def check_fiber_orientation_tensor(
     average_orientation = arr.mean(axis=0)
     
     return average_orientation
-
     
     
 def batched_run(
